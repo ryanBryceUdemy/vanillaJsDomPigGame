@@ -8,55 +8,64 @@ GAME RULES:
 - The first player to reach 100 points on GLOBAL score wins the game
 
 */
-
-var score, roundScore, activePlayer;
-scores = [0,0];
-roundScore = 0;
-activePlayer = 0;
-
-//console.log(dice);
-
-document.querySelector('.dice').style.display = 'none';
-document.getElementById('score-0').textContent = '0';
-document.getElementById('score-1').textContent = '0';
-document.getElementById('current-0').textContent = '0';
-document.getElementById('current-1').textContent = '0';
+var score, roundScore, activePlayer, gamePlaying, prevRoll;
+init();
 
 document.querySelector('.btn-roll').addEventListener('click', () => {
-  //1. Random Number
-  var dice = Math.floor(Math.random() * 6) + 1;
+  if (gamePlaying) {
+    //1. Random Number
+    var dice = Math.floor(Math.random() * 6) + 1;
 
-  //2. Display the result
-  var diceDom = document.querySelector('.dice');
-  diceDom.style.display = 'block';
-  diceDom.src = 'dice-' + dice + '.png';
+    console.log(prevRoll);
+    //prev roll
+    prevRoll = dice;
 
-  //3. Update the round score IF the rolled number was not a 1
-  if (dice !== 1) {
-    //Add score
-    roundScore += dice;
-    document.querySelector('#current-' + activePlayer).textContent = roundScore;
-  }else{
-    //Next pLayer
-    nextPlayer();
+    //2. Display the result
+    var diceDom = document.querySelector('.dice');
+    diceDom.style.display = 'block';
+    diceDom.src = 'dice-' + dice + '.png';
+
+    //3. Update the round score IF the rolled number was not a 1
+    if (dice !== 1) {
+      console.log(prevRoll);
+      //check to see if dice ==p prev diceroll
+      if (prevRoll === dice) {
+        document.getElementById('current-0').textContent = 0
+      }else {
+        //Add score
+        roundScore += dice;
+
+      }
+
+      document.querySelector('#current-' + activePlayer).textContent = roundScore;
+    }else{
+      //Next pLayer
+      nextPlayer();
+    }
+    //if player rolls two 6 his total score is 0
   }
 });
 
 document.querySelector('.btn-hold').addEventListener('click', () => {
-  //1. add CURRENT to GLOBAL score;
-  scores[activePlayer] += roundScore;
-  //2. update the UI
-  document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
-  //3. check if player won the game
-  if (scores[activePlayer] >= 20) {
-    document.querySelector('.dice').style.display = 'none';
-    document.querySelector('#name-' + activePlayer).textContent = 'WINNER'
-    document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
-    document.querySelector('.player-'+ activePlayer + '-panel').classList.remove('active');
-  }else {
-    nextPlayer();
+  if (gamePlaying) {
+    //1. add CURRENT to GLOBAL score;
+    scores[activePlayer] += roundScore;
+    //2. update the UI
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    //3. check if player won the game
+    if (scores[activePlayer] >= 20) {
+      document.querySelector('.dice').style.display = 'none';
+      document.querySelector('#name-' + activePlayer).textContent = 'WINNER';
+      document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+      document.querySelector('.player-'+ activePlayer + '-panel').classList.remove('active');
+      gamePlaying = false;
+    }else {
+      nextPlayer();
+    }
   }
 });
+
+document.querySelector('.btn-new').addEventListener('click', init);
 
 
 
@@ -70,4 +79,26 @@ function nextPlayer() {
   document.querySelector('.player-0-panel').classList.toggle('active');
   document.querySelector('.player-1-panel').classList.toggle('active');
   document.querySelector('.dice').style.display = 'none';
+}
+
+
+function init() {
+  scores = [0,0];
+  roundScore = 0;
+  activePlayer = 0;
+  gamePlaying = true;
+  document.querySelector('.dice').style.display = 'none';
+
+  document.getElementById('score-0').textContent = '0';
+  document.getElementById('score-1').textContent = '0';
+  document.getElementById('current-0').textContent = '0';
+  document.getElementById('current-1').textContent = '0';
+  document.getElementById('name-0').textContent = 'PLAYER 1';
+  document.getElementById('name-1').textContent = 'PLAYER 2';
+
+  document.querySelector('.player-0-panel').classList.remove('winner');
+  document.querySelector('.player-1-panel').classList.remove('winner');
+  document.querySelector('.player-0-panel').classList.remove('active');
+  document.querySelector('.player-1-panel').classList.remove('active');
+  document.querySelector('.player-0-panel').classList.add('active');
 }
