@@ -16,9 +16,8 @@ document.querySelector('.btn-roll').addEventListener('click', () => {
     //1. Random Number
     var dice = Math.floor(Math.random() * 6) + 1;
 
-    console.log(prevRoll);
     //prev roll
-    prevRoll = dice;
+    lastDice = dice;
 
     //2. Display the result
     var diceDom = document.querySelector('.dice');
@@ -26,23 +25,20 @@ document.querySelector('.btn-roll').addEventListener('click', () => {
     diceDom.src = 'dice-' + dice + '.png';
 
     //3. Update the round score IF the rolled number was not a 1
-    if (dice !== 1) {
-      console.log(prevRoll);
-      //check to see if dice ==p prev diceroll
-      if (prevRoll === dice) {
-        document.getElementById('current-0').textContent = 0
-      }else {
-        //Add score
-        roundScore += dice;
-
-      }
-
+    if (dice === 6 && lastDice === 6) {
+      scores[activePlayer] = 0;
+      document.querySelector('#score-' + activePlayer).textContent = '0';
+      nextPlayer();
+    }else if (dice !== 1) {
+      roundScore += dice;
       document.querySelector('#current-' + activePlayer).textContent = roundScore;
     }else{
       //Next pLayer
       nextPlayer();
     }
-    //if player rolls two 6 his total score is 0
+    //prev roll
+    lastDice = dice;
+    console.log(lastDice);
   }
 });
 
@@ -87,6 +83,7 @@ function init() {
   roundScore = 0;
   activePlayer = 0;
   gamePlaying = true;
+  // lastDice = 0;
   document.querySelector('.dice').style.display = 'none';
 
   document.getElementById('score-0').textContent = '0';
