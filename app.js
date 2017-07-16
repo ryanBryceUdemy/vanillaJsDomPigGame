@@ -8,16 +8,13 @@ GAME RULES:
 - The first player to reach 100 points on GLOBAL score wins the game
 
 */
-var score, roundScore, activePlayer, gamePlaying, prevRoll;
+var score, roundScore, activePlayer, gamePlaying, prevRoll, numSet;
 init();
 
 document.querySelector('.btn-roll').addEventListener('click', () => {
   if (gamePlaying) {
     //1. Random Number
     var dice = Math.floor(Math.random() * 6) + 1;
-
-    //prev roll
-    lastDice = dice;
 
     //2. Display the result
     var diceDom = document.querySelector('.dice');
@@ -38,7 +35,6 @@ document.querySelector('.btn-roll').addEventListener('click', () => {
     }
     //prev roll
     lastDice = dice;
-    console.log(lastDice);
   }
 });
 
@@ -49,7 +45,7 @@ document.querySelector('.btn-hold').addEventListener('click', () => {
     //2. update the UI
     document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
     //3. check if player won the game
-    if (scores[activePlayer] >= 20) {
+    if (scores[activePlayer] >= numSet) {
       document.querySelector('.dice').style.display = 'none';
       document.querySelector('#name-' + activePlayer).textContent = 'WINNER';
       document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
@@ -62,6 +58,12 @@ document.querySelector('.btn-hold').addEventListener('click', () => {
 });
 
 document.querySelector('.btn-new').addEventListener('click', init);
+
+document.querySelector('.input-number').addEventListener('keyup', () => {
+  //get value from input set numset to that value
+  numSet = document.querySelector('.input-number').value;
+
+});
 
 
 
@@ -83,6 +85,7 @@ function init() {
   roundScore = 0;
   activePlayer = 0;
   gamePlaying = true;
+  numSet = document.querySelector('.input-number').value = 100;
   // lastDice = 0;
   document.querySelector('.dice').style.display = 'none';
 
@@ -98,4 +101,5 @@ function init() {
   document.querySelector('.player-0-panel').classList.remove('active');
   document.querySelector('.player-1-panel').classList.remove('active');
   document.querySelector('.player-0-panel').classList.add('active');
+
 }
