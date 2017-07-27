@@ -51,7 +51,7 @@ document.querySelector('.btn-hold').addEventListener('click', () => {
     numSet = document.querySelector('.input-number').value;
     var winningScore;
     if (numSet) {
-      winningScore = numSet
+      winningScore = numSet;
     }else {
       winningScore = 100;
     }

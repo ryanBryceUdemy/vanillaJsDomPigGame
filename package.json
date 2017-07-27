@@ -1,0 +1,19 @@
+{
+  "name": "pig",
+  "version": "1.0.0",
+  "description": "dice game",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanBryceUdemy/vanillaJsDomPigGame.git"
+  },
+  "author": "ryanbryce",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryanBryceUdemy/vanillaJsDomPigGame/issues"
+  },
+  "homepage": "https://github.com/ryanBryceUdemy/vanillaJsDomPigGame#readme"
+}
